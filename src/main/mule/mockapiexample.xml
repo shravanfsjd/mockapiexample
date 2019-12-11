@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="38acc836-8d56-479d-ad96-356892633add" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="bdb5e4ec-2819-4d61-82b8-a1bcea189f90" basePath="/api/articles">
+		<http:request-connection host="5def7c9702b2d90014e1b4cf.mockapi.io" />
+	</http:request-config>
+	<flow name="mockapiexampleFlow" doc:id="caed0ff5-8d75-4695-9258-db23af00bb51" >
+		<http:listener doc:name="Listener" doc:id="2d7fff65-1e6a-435f-a6fc-c81e53ede1bc" config-ref="HTTP_Listener_config" path="/mockapi/"/>
+		<http:request method="GET" doc:name="Request" doc:id="87381c97-b9ad-497f-97bf-33971f8ead5c" config-ref="HTTP_Request_configuration" path="/{id}">
+			<http:uri-params ><![CDATA[#[output application/java
+---
+{
+	id : attributes.uriParams
+}]]]></http:uri-params>
+		</http:request>
+	</flow>
+</mule>
